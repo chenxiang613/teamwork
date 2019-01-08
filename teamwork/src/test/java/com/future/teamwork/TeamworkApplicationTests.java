@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.future.teamwork.dao.UserRepository;
+import com.future.teamwork.dao.UserDao;
 import com.future.teamwork.domain.User;
 
 @RunWith(SpringRunner.class)
@@ -21,7 +21,7 @@ public class TeamworkApplicationTests {
 	    }
 
 	    @Autowired
-	    private UserRepository testUserDao;
+	    private UserDao testUserDao;
 
 	    @Test
 	    public void insert() {
