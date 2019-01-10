@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--head部分-->
+<head th:include="layout :: htmlhead" th:with="title='Shiro权限管理'">
+</head>
+<style>
+    body{
+        background-repeat: no-repeat;
+        background-size:100% 100%;
+        background-attachment: fixed;
+    }
+</style>
+<body>
+<div class="layui-container" style="margin-top: 50px">
+    <div class="layui-row">
+        <div class="layui-col-xs3">
+            <div class="grid-demo grid-demo-bg1">
+                &nbsp;
+            </div>
+        </div>
+        <div class="layui-col-xs6">
+            <div class="grid-demo">
+                <form id="useLogin" class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户名</label>
+                        <div class="layui-input-inline">
+                            <input id="userName" name="userName" lay-verify="required" autocomplete="off" class="layui-input" type="tel"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密&nbsp;&nbsp;码</label>
+                        <div class="layui-input-inline">
+                            <input id="password" name="password" lay-verify="required" autocomplete="off" class="layui-input" type="password"/>
+                        </div>
+                    </div>
+                    <div> <label class="layui-form-label">验证码</label>
+                    	<div class="layui-input-inline">
+                    		<input type="text" name="captcha" class="layui-input"/>
+                    			<div class="layui-input-inline">
+                    				<img style="margin-top: 5px" alt="验证码" th:src="@{/Captcha.jpg}" title="点击更换" id="captcha_img"/>(看不清<a href="javascript:void(0)" onclick="javascript:refreshCaptcha()">换一张</a>)
+                    			</div>
+                    	</div>
+                    </div>
+                    <div class="layui-form-item" style="margin-top: 10px;">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-inline">
+                            <input type="checkbox" name="rememberMe" lay-skin="primary"  title="记住我"/>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" type="reset">重置</button>
+                            <button id="loginBtn" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="login">登录</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/login.js"></script>
+<script type="text/javascript">
+	function refreshCaptcha(){
+	    $("#captcha_img").attr("src","/Captcha.jpg?id=" + new Date() + Math.floor(Math.random()*24));
+	}
+</script>
+</body>
+</html>

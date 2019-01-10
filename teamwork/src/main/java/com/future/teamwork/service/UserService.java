@@ -1,9 +1,25 @@
 package com.future.teamwork.service;
 
+import java.util.Map;
 
-import java.io.Serializable;
+import com.future.teamwork.domain.User;
+import com.future.teamwork.utils.PageDataUtil;
 
-public interface UserService<T,ID extends Serializable> extends BaseService<T, ID>{
+public interface UserService{
 	
+	PageDataUtil getUserList(User user, Integer pageNum, Integer pageSize);
 
+    Map<String,Object> addUser(User user);
+
+    Map<String,Object> updateUser(User user);
+
+    User getUserById(Integer id);
+
+    User findByUserName(String userName);
+
+    int updatePassword(String userName,String password);
+
+    Map<String, Object> delUser(Integer id,Integer status);
+
+    Map<String, Object> recoverUser(Integer id,Integer status);
 }

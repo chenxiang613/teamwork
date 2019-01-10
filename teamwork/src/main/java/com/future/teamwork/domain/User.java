@@ -1,58 +1,132 @@
 package com.future.teamwork.domain;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import javax.persistence.Transient;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "User")
-public class User {
+@Table(name="user")
+public class User implements Serializable{
 
-    public User() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    }
-
-    public User(String username, int age) {
-        this.username = username;
-        this.age = age;
-    }
-
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
+    @Column(name="role_id")
+    private Integer roleId;
+    
+    @Column(name="user_name")
+    private String userName;
+    
+    @Column(name="password")
+    private String password;
+    	
+    @Column(name="phone")
+    private String phone;
+    
+    @Column(name="status")
+    private Integer status;
+    
+    @Column(name="create_time")
+    private String createTime;
+    
+    @Column(name="update_time")
+    private String updateTime;
 
-    @Column
-    private String username;
+    @Transient
+    private List<Role> roles;
+    
+    private String rememberMe;
 
-    @Column
-    private int age;
+	public Integer getId() {
+		return id;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getRoleId() {
+		return roleId;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public int getAge() {
-        return age;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public String getRememberMe() {
+		return rememberMe;
+	}
+
+	public void setRememberMe(String rememberMe) {
+		this.rememberMe = rememberMe;
+	}
 }
