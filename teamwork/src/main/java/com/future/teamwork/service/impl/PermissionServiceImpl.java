@@ -119,6 +119,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Map <String, Object> getUserPerms(User user) {
+    	//测试注释
         Map<String, Object> data = new HashMap<>();
         Integer roleId = user.getRoleId();
 
