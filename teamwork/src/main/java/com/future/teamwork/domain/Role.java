@@ -16,9 +16,6 @@ public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
-    @Column(name="role_id")
-    private String roleId;
 
     @Column(name="role_name")
     private String roleName;
@@ -26,8 +23,8 @@ public class Role implements Serializable {
     @Column(name="permissions")
     private String permissions;
 
-    @Column(name="descpt")
-    private String descpt;
+    @Column(name="role_desc")
+    private String roleDesc;
     
     @Column(name="status")
     private Integer status;
@@ -46,14 +43,6 @@ public class Role implements Serializable {
 		this.id = id;
 	}
 
-	public String getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
-	}
-
 	public String getRoleName() {
 		return roleName;
 	}
@@ -70,12 +59,12 @@ public class Role implements Serializable {
 		this.permissions = permissions;
 	}
 
-	public String getDescpt() {
-		return descpt;
+	public String getRoleDesc() {
+		return roleDesc;
 	}
 
-	public void setDescpt(String descpt) {
-		this.descpt = descpt;
+	public void setRoleDesc(String roleDesc) {
+		this.roleDesc = roleDesc;
 	}
 
 	public Integer getStatus() {

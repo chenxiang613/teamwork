@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
-//@MapperScan(basePackages ="com.future.teamwork.dao")
 public class TeamworkApplication {
 
 	public static void main(String[] args) {

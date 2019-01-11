@@ -29,9 +29,6 @@ public class Permission implements Serializable {
 
     @Column(name="url")
     private String url;
-   
-    @Column(name="status")
-    private Integer status;
 
     @Column(name="create_time")
     private String createTime;
@@ -83,14 +80,6 @@ public class Permission implements Serializable {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-	
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
 	}
 
 	public String getCreateTime() {

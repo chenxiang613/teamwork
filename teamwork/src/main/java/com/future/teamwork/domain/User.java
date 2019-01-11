@@ -41,9 +41,6 @@ public class User implements Serializable{
     
     @Column(name="create_time")
     private String createTime;
-    
-    @Column(name="update_time")
-    private String updateTime;
 
     @Transient
     private List<Role> roles;
@@ -104,14 +101,6 @@ public class User implements Serializable{
 
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
-	}
-
-	public String getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
 	}
 
 	public List<Role> getRoles() {
