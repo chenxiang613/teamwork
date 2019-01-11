@@ -28,7 +28,7 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private UserService UserService;
+    private UserService userService;
 
     @RequestMapping("login")
     @ResponseBody
@@ -90,7 +90,7 @@ public class UserController {
             return data;
         }
         User user = (User) SecurityUtils.getSubject().getPrincipal();
-        int result = UserService.updatePassword(user.getUserName(),pwd);
+        int result = userService.updatePassword(user.getUserName(),pwd);
         if(result == 0){
             data.put("code",0);
             data.put("msg","修改密码失败！");
@@ -118,7 +118,7 @@ public class UserController {
             if(null == pageSize) {
                 pageSize = 10;
             }
-            pdr = UserService.getUserList(user, pageNum ,pageSize);
+            pdr = userService.getUserList(user, pageNum ,pageSize);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,9 +131,9 @@ public class UserController {
     public Map<String,Object> setUser(User user) {
         Map<String,Object> data = new HashMap<String, Object>();
         if(user.getId() == null){
-            data = UserService.addUser(user);
+            data = userService.addUser(user);
         }else{
-            data = UserService.updateUser(user);
+            userService.save(user);
         }
         return data;
     }
@@ -143,9 +143,9 @@ public class UserController {
     public Map<String, Object> updateUserStatus(@RequestParam("id") Integer id,@RequestParam("status") Integer status) {
         Map<String, Object> data = new HashMap<>();
         if(status == 0){
-            data = UserService.delUser(id,status);
+            data = userService.delUser(id,status);
         }else{
-            data = UserService.recoverUser(id,status);
+            data = userService.recoverUser(id,status);
         }
         return data;
     }

@@ -5,7 +5,7 @@ import java.util.Map;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.utils.PageDataUtil;
 
-public interface UserService{
+public interface UserService extends BaseService<User, Integer>{
 	
 	PageDataUtil getUserList(User user, Integer pageNum, Integer pageSize);
 

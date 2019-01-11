@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/shiro_test?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/springboot_shiro?serverTimezone=UTC
     username: root
     password: admin
 #spring.datasource.type=com.jolbox.bonecp.BoneCPDataSource

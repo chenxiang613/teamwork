@@ -34,11 +34,11 @@ $(function() {
                 ,{field:'permissions', title:'权限',align:'center'}
                 ,{field:'createTime', title:'创建时间',align:'center'}
                 ,{field:'updateTime', title:'更新时间',align:'center'}
-                ,{field:'roleStatus', title:'是否有效',align:'center'}
+                ,{field:'status', title:'是否有效',align:'center'}
                 ,{fixed:'right',title:'操作',align:'center', toolbar:'#optBar'}
             ]],
             done: function(res, curr, count){
-                $("[data-field='roleStatus']").children().each(function(){
+                $("[data-field='status']").children().each(function(){
                     if($(this).text()=='1'){
                         $(this).text("有效")
                     }else if($(this).text()=='0'){

@@ -10,8 +10,8 @@ import com.future.teamwork.domain.User;
 
 @Repository
 public interface  UserDao  extends JpaRepository<User, Integer> {
-	@Query(value="SELECT * FROM user",nativeQuery=true)
-	List<User> getUserList(User user);
+	@Query(value="SELECT u.*,(SELECT role_name FROM role as r WHERE r.id = u.role_id) as role_name FROM user as u",nativeQuery=true)
+	List<User> getUserList();
 	
 	@Query(value="SELECT * FROM user WHERE user_name = ? and status = 1 and id = ?",nativeQuery=true)
     User getUserByUserName(String userName,Integer id);
@@ -19,7 +19,7 @@ public interface  UserDao  extends JpaRepository<User, Integer> {
 	@Query(value="UPDATE user SET status=? WHERE id=?",nativeQuery=true)
     int updateStatus(Integer id,Integer status);
     
-    @Query(value="UPDATE user SET user_name=?,password=?,rold_id=?,phone=? WHERE id = ?",nativeQuery=true)
+    @Query(value="UPDATE user SET user_name=?,password=?,rold_name=?,phone=? WHERE id = ?",nativeQuery=true)
     int updateUser(User user);
     
     @Query(value="SELECT * FROM user WHERE user_name = ? and status = 1",nativeQuery=true)

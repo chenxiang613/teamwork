@@ -27,6 +27,9 @@ public class User implements Serializable{
     @Column(name="role_id")
     private Integer roleId;
     
+    @Column(name="role_name")
+    private String roleName;
+    
     @Column(name="user_name")
     private String userName;
     
@@ -118,4 +121,14 @@ public class User implements Serializable{
 	public void setRememberMe(String rememberMe) {
 		this.rememberMe = rememberMe;
 	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+	
+	
 }

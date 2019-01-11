@@ -11,13 +11,13 @@ import com.future.teamwork.domain.Permission;
 @Repository
 public interface PermissionDao extends JpaRepository<Permission, Integer>{
 	
-	@Query(value=" SELECT id,name,pid,(SELECT name FROM permission WHERE id = p.pid) as pname,descpt,url,create_time AS createTime, update_time AS updateTime,del_flag AS delFlag FROM permission as p ORDER BY pid",nativeQuery=true)
+	@Query(value="SELECT p.*,(SELECT name FROM permission WHERE id = p.pid) as pname FROM permission as p ORDER BY pid",nativeQuery=true)
 	List<Permission> getPermissionList();
 	
-	@Query(value="SELECT id,name FROM permission WHERE pid = 0",nativeQuery=true)
+	@Query(value="SELECT * FROM permission WHERE pid = 0",nativeQuery=true)
     List<Permission> parentPermissionList();
 	
-	@Query(value="UPDATE permission SET name=?,pid=?,descpt=?,url=?,update_time=? where id=?",nativeQuery=true)
+	@Query(value="UPDATE permission SET name=?,descpt=?,url=? WHERE id=?",nativeQuery=true)
     int updatePermission(Permission permission);
     
     @Query(value="SELECT * FROM permission  WHERE pid = ?",nativeQuery=true)

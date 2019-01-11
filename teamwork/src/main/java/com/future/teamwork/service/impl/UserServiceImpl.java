@@ -17,21 +17,21 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements UserService {
 
     @Autowired
     private UserDao userDao;
 
     @Override
-    public PageDataUtil getUserList(User userSearch, Integer pageNum, Integer pageSize) {
+    public PageDataUtil getUserList(User user, Integer pageNum, Integer pageSize) {
         PageDataUtil pageDataResult = new PageDataUtil();
-        List<User> baseAdminUsers = userDao.getUserList(userSearch);
+        List<User> userList = userDao.getUserList();
 
         PageHelper.startPage(pageNum, pageSize);
 
-        if(baseAdminUsers.size() != 0){
-            PageInfo<User> pageInfo = new PageInfo<>(baseAdminUsers);
-            pageDataResult.setList(baseAdminUsers);
+        if(userList.size() != 0){
+            PageInfo<User> pageInfo = new PageInfo<>(userList);
+            pageDataResult.setList(userList);
             pageDataResult.setTotals((int) pageInfo.getTotal());
         }
 

@@ -29,7 +29,7 @@ $(function() {
                 ,{field:'userName', title:'用户名',align:'center'}
                 ,{field:'roleName', title:'角色类型',align:'center'}
                 ,{field:'phone', title:'手机号',align:'center'}
-                ,{field:'regTime', title: '注册时间',align:'center'}
+                ,{field:'createTime', title: '注册时间',align:'center'}
                 ,{field:'status', title: '是否有效',align:'center'}
                 ,{title:'操作',align:'center', toolbar:'#optBar'}
             ]],
