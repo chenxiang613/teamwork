@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class PermissionServiceImpl implements PermissionService {
+public class PermissionServiceImpl extends BaseServiceImpl<Permission, Integer> implements PermissionService {
 
     @Autowired
     private PermissionDao permissionDao;
@@ -36,7 +36,12 @@ public class PermissionServiceImpl implements PermissionService {
             permission.setCreateTime(DateUtil.getCurrentDate());
             permission.setUpdateTime(DateUtil.getCurrentDate());
             permission.setDelFlag(1);
-            int result = permissionDao.updatePermission(permission);
+            int result;
+            if( updateByPermission(permission) != null){
+            	 result = 1;
+            }else{
+            	result = 0;
+            }
             if(result == 0){
                 data.put("code",0);
                 data.put("msg","新增失败！");
@@ -56,7 +61,12 @@ public class PermissionServiceImpl implements PermissionService {
         Map<String,Object> data = new HashMap<String, Object>();
         try{
             permission.setUpdateTime(DateUtil.getCurrentDate());
-            int result = permissionDao.updatePermission(permission);
+            int result;
+            if( updateByPermission(permission) != null){
+            	 result = 1;
+            }else{
+            	result = 0;
+            }
             if(result == 0){
                 data.put("code",0);
                 data.put("msg","更新失败！");
@@ -119,7 +129,6 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Map <String, Object> getUserPerms(User user) {
-    	//测试注释
         Map<String, Object> data = new HashMap<>();
         Integer roleId = user.getRoleId();
 

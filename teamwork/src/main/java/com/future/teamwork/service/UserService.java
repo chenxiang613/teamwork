@@ -22,4 +22,5 @@ public interface UserService extends BaseService<User, Integer>{
     Map<String, Object> delUser(Integer id,Integer status);
 
     Map<String, Object> recoverUser(Integer id,Integer status);
+
 }

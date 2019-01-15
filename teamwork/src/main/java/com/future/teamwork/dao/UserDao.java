@@ -24,9 +24,6 @@ public interface  UserDao  extends JpaRepository<User, Integer> {
 	@Query(value="UPDATE User SET status=:status WHERE id=:id")
     int updateUserStatus(@Param("id") Integer id,@Param("status") Integer status);
     
-    @Query(value="UPDATE user SET user_name=?,password=?,role_name=?,phone=? WHERE id=?",nativeQuery=true)
-    int updateUser(User user);
-    
     @Query(value="SELECT * FROM user WHERE user_name = ? and status = 1",nativeQuery=true)
     User findByUserName(String userName);
     

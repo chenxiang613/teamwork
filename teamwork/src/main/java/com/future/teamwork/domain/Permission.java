@@ -14,7 +14,12 @@ import java.util.List;
 @Entity
 @Table(name="permission")
 public class Permission implements Serializable {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -113,4 +118,17 @@ public class Permission implements Serializable {
 	public void setChildrens(List<Permission> childrens) {
 		this.childrens = childrens;
 	}
+	
+	public String toString() {
+        return "Permission{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", pid=" + pid +
+                ", descpt='" + descpt + '\'' +
+                ", url='" + url + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", delFlag=" + delFlag +
+                '}';
+    }
 }

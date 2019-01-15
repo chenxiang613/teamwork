@@ -62,11 +62,17 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
             }else{
                 String password = DigestUtil.Md5(username,user.getPassword());
                 user.setPassword(password);
+            if(user.getRoleId()==1){
+            	user.setRoleName("系统管理员");
+            	}else{
+            		user.setRoleName("普通管理员");
+            	}
             }
+            
             user.setCreateTime(DateUtil.getCurrentDate());
             user.setStatus(1);
             int result;
-            if( userDao.save(user) != null){
+            if( updateByUser(user)!= null){
             	 result = 1;
             }else{
             	result = 0;
@@ -102,7 +108,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
             user.setPassword(password);
         }
         int result;
-        if( userDao.save(user) != null){
+        if( updateByUser(user) != null){
         	 result = 1;
         }else{
         	result = 0;

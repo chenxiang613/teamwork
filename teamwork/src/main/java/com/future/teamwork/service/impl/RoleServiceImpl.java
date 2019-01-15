@@ -4,27 +4,24 @@ import com.future.teamwork.dao.PermissionDao;
 import com.future.teamwork.dao.RoleDao;
 import com.future.teamwork.domain.Permission;
 import com.future.teamwork.domain.Role;
+import com.future.teamwork.domain.User;
 import com.future.teamwork.service.RoleService;
 import com.future.teamwork.utils.DateUtil;
 import com.future.teamwork.utils.PageDataUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.beans.BeanUtils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends BaseServiceImpl<User, Integer> implements RoleService {
 
     @Autowired
     private RoleDao roleDao;
@@ -75,7 +72,12 @@ public class RoleServiceImpl implements RoleService {
             role.setCreateTime(DateUtil.getCurrentDate());
             role.setUpdateTime(DateUtil.getCurrentDate());
             role.setStatus(1);
-            int result = roleDao.updateRole(role);
+            int result;
+            if( updateByRole(role)!= null){
+            	 result = 1;
+            }else{
+            	result = 0;
+            }
             if(result == 0){
                 data.put("code",0);
                 data.put("msg","新增角色失败");
@@ -100,7 +102,12 @@ public class RoleServiceImpl implements RoleService {
         Map<String,Object> data = new HashMap<String, Object>();
         try{
             role.setUpdateTime(DateUtil.getCurrentDate());
-            int result = roleDao.updateRole(role);
+            int result;
+            if( updateByRole(role)!= null){
+            	 result = 1;
+            }else{
+            	result = 0;
+            }
             if(result == 0){
                 data.put("code",0);
                 data.put("msg","更新失败！");

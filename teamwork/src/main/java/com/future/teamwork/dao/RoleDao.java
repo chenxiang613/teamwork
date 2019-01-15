@@ -20,9 +20,6 @@ public interface RoleDao extends JpaRepository<Role, Integer>{
 	
 	@Query(value="SELECT * FROM role WHERE status = 1",nativeQuery=true)
     List<Role> getRoles();
-
-	@Query(value="UPDATE role SET role_id=?,role_name=?,role_desc=?,update_time=? WHERE id=?",nativeQuery=true)
-    int updateRole(Role role);
 	
 	@Modifying
 	@Transactional

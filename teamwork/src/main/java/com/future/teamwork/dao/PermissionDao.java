@@ -19,9 +19,6 @@ public interface PermissionDao extends JpaRepository<Permission, Integer>{
 	
 	@Query(value="SELECT * FROM permission WHERE pid = 0",nativeQuery=true)
     List<Permission> parentPermissionList();
-	
-	@Query(value="UPDATE permission SET name=?,descpt=?,url=? WHERE id=?",nativeQuery=true)
-    int updatePermission(Permission permission);
     
     @Query(value="SELECT * FROM permission  WHERE pid = ?",nativeQuery=true)
     List<Permission> getPermissionListByPid(Integer pid);
