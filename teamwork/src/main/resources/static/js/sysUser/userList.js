@@ -132,7 +132,7 @@ function openUser(data,title){
         $("#id").val("");
     }else{
         $("#id").val(data.id);
-        $("#userName").val(data.userName);
+        $("#username").val(data.userName);
         $("#mobile").val(data.phone);
         roleId = data.roleId;
     }
@@ -204,7 +204,7 @@ function recoverUser(obj,id) {
         layer.confirm('您确定要恢复吗？', {
             btn: ['确认','返回'] //按钮
         }, function(){
-            $.post("/user/updateStatus",{"id":id,"status":1},function(data){
+            $.post("/user/updateUserStatus",{"id":id,"status":1},function(data){
                 if (data.code == 1) {
                     layer.alert(data.msg,function(){
                         layer.closeAll();
@@ -231,7 +231,7 @@ function load(obj){
 }
 
 function cleanUser(){
-    $("#userName").val("");
+    $("#username").val("");
     $("#mobile").val("");
     $("#password").val("");
     $('#roleId').html("");

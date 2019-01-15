@@ -7,9 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name="user")
@@ -24,7 +24,12 @@ public class User implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @Column(name="role_id")
+	
+    public User() {
+		super();
+	}
+
+	@Column(name="role_id")
     private Integer roleId;
     
     @Column(name="role_name")
@@ -45,8 +50,6 @@ public class User implements Serializable{
     @Column(name="create_time")
     private String createTime;
 
-    @Transient
-    private List<Role> roles;
     
     private String rememberMe;
 
@@ -106,14 +109,6 @@ public class User implements Serializable{
 		this.createTime = createTime;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
-
 	public String getRememberMe() {
 		return rememberMe;
 	}
@@ -130,5 +125,17 @@ public class User implements Serializable{
 		this.roleName = roleName;
 	}
 	
+	 @Override
+	    public String toString() {
+	        return "User{" +
+	                "id=" + id +
+	                ", userName='" + userName + '\'' +
+	                ", password='" + password + '\'' +
+	                ", roleId=" + roleId +
+	                ", phone='" + phone + '\'' +
+	                ", createTime='" + createTime + '\'' +
+	                ", status=" + status +
+	                '}';
+	    }
 	
 }

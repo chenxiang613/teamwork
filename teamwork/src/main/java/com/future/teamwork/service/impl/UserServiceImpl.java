@@ -65,7 +65,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
             }
             user.setCreateTime(DateUtil.getCurrentDate());
             user.setStatus(1);
-            int result = userDao.updateUser(user);
+            int result;
+            if( userDao.save(user) != null){
+            	 result = 1;
+            }else{
+            	result = 0;
+            }
             if(result == 0){
                 data.put("code",0);
                 data.put("msg","新增失败！");
@@ -96,8 +101,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
             String password = DigestUtil.Md5(username,user.getPassword());
             user.setPassword(password);
         }
-
-        int result = userDao.updateUser(user);
+        int result;
+        if( userDao.save(user) != null){
+        	 result = 1;
+        }else{
+        	result = 0;
+        }
         if(result == 0){
             data.put("code",0);
             data.put("msg","更新失败！");
@@ -118,7 +127,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
     public Map <String, Object> delUser(Integer id,Integer status) {
         Map<String, Object> data = new HashMap<>();
         try {
-            int result = userDao.updateStatus(id,status);
+            int result = userDao.updateUserStatus(id,status);
             if(result == 0){
                 data.put("code",0);
                 data.put("msg","删除用户失败");
@@ -136,11 +145,12 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
     public Map <String, Object> recoverUser(Integer id, Integer status) {
         Map<String, Object> data = new HashMap<>();
         try {
-            int result = userDao.updateStatus(id,status);
+            int result = userDao.updateUserStatus(id,status);
             if(result == 0){
                 data.put("code",0);
             }
             data.put("code",1);
+            data.put("msg", "恢复用户成功");
         } catch (Exception e) {
             e.printStackTrace();
         }

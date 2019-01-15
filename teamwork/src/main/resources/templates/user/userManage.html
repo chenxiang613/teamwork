@@ -48,7 +48,7 @@
 
         <script type="text/html" id="optBar">
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-            {{#  if(d.userStatus == '0'){ }}
+            {{#  if(d.status == '0'){ }}
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="recover">恢复</a>
             {{#  } else { }}
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
@@ -65,13 +65,14 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
                 <div class="layui-input-inline">
-                    <input id="userName" name="userName" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                    <input id="username" name="userName" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">角色类型</label>
                 <div class="layui-input-inline">
-                    <input id="roleName" name="roleName" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                    <select name="roleId"  id="roleId" >
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">

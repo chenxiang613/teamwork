@@ -133,14 +133,14 @@ public class UserController {
         if(user.getId() == null){
             data = userService.addUser(user);
         }else{
-            userService.save(user);
+            data = userService.updateUser(user);
         }
         return data;
     }
 
     @RequestMapping(value = "/updateUserStatus", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> updateUserStatus(@RequestParam("id") Integer id,@RequestParam("status") Integer status) {
+    public Map<String, Object> updateUserStatus(Integer id,Integer status) {
         Map<String, Object> data = new HashMap<>();
         if(status == 0){
             data = userService.delUser(id,status);
