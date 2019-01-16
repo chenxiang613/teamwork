@@ -4,31 +4,23 @@ import java.io.Serializable;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.Nullable;
 
-import com.future.teamwork.domain.Permission;
-import com.future.teamwork.domain.Role;
-import com.future.teamwork.domain.User;
 import com.future.teamwork.service.BaseService;
+import com.future.teamwork.utils.CopyUtils;
 
 public class BaseServiceImpl<T,ID extends Serializable> implements BaseService<T,ID>{
 
 	@Autowired
 	private JpaRepository<T, ID> jpaRepository;
 	
-	@Autowired
-	private JpaRepository<User, Integer> userRepository;
-	
-	@Autowired
-	private JpaRepository<Role, Integer> roleRepository;
-	
-	@Autowired
-	private JpaRepository<Permission, Integer> permissionRepository;
-	
 	@Override
 	public void delete(T entity) {
 		jpaRepository.delete(entity);
-		
 	}
 
 	@Override
@@ -42,42 +34,40 @@ public class BaseServiceImpl<T,ID extends Serializable> implements BaseService<T
 	}
 
 	@Override
-	public T saveOrUpdate(T entity) {
-//		jpaRepository.findOne(id);
+	@Nullable
+	public T save(T entity) {
 		return jpaRepository.save(entity);
 	}
-
+	
 	@Override
-	public User updateByUser(User user) {
-		if (user.getId() == null) {
-	    	   return userRepository.save(user);
-	    	   }
-	       User saveUser = userRepository.getOne(user.getId());
-	       BeanUtils.copyProperties(user, saveUser, "status", "roleName","createTime");
-	       return userRepository.saveAndFlush(saveUser);
-	}
-
-	@Override
-	public Role updateByRole(Role role) {
-		if (role.getId() == null) {
-	    	   return roleRepository.save(role);
-	    	   }
-	       Role saveRole = roleRepository.getOne(role.getId());
-	       BeanUtils.copyProperties(role, saveRole, "status", "roleName","createTime");
-	       return roleRepository.saveAndFlush(saveRole);
-	}
-
-	@Override
-	public Permission updateByPermission(Permission permission) {
-		if(permission.getId() == null){
-			return permissionRepository.save(permission);
+	public T update(T source, ID id) {
+		if( id == null){
+			return null;
 		}
-		Permission savePermission = permissionRepository.getOne(permission.getId());
-		BeanUtils.copyProperties(permission, savePermission, "createTime","delFlag");
-		return permissionRepository.saveAndFlush(savePermission);
+		T target = jpaRepository.getOne(id);
+		String[] nullPropertiesArray = CopyUtils.getNullPropertyNames(source);
+		BeanUtils.copyProperties(source,target,nullPropertiesArray);
+		return jpaRepository.save(target);
 	}
 
+	@Override
+	public Page<T> findAll(Example<T> example, Pageable page) {
+		return jpaRepository.findAll(example,page);
+	}
+	
+	@Override
+	public Page<T> findAll(Pageable page) {
+		return jpaRepository.findAll(page);
+	}
 
+	public JpaRepository<T, ID> getJpaRepository() {
+		return jpaRepository;
+	}
 
+	public void setJpaRepository(JpaRepository<T, ID> jpaRepository) {
+		this.jpaRepository = jpaRepository;
+	}
 
+	
+	
 }

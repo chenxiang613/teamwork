@@ -1,6 +1,14 @@
 package com.future.teamwork.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.future.teamwork.dao.UserDao;
+import com.future.teamwork.domain.ResultInfo;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.service.UserService;
 import com.future.teamwork.utils.DateUtil;
@@ -9,13 +17,6 @@ import com.future.teamwork.utils.PageDataUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements UserService {
 
@@ -23,109 +24,43 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
     private UserDao userDao;
 
     @Override
-    public PageDataUtil getUserList(User user, Integer pageNum, Integer pageSize) {
-        PageDataUtil pageDataResult = new PageDataUtil();
-        List<User> userList = userDao.getUserList();
-
-        PageHelper.startPage(pageNum, pageSize);
-
-        if(userList.size() != 0){
-            PageInfo<User> pageInfo = new PageInfo<>(userList);
-            pageDataResult.setList(userList);
-            pageDataResult.setTotals((int) pageInfo.getTotal());
+    public User save(User user) {
+        User old = userDao.getUserByUserName(user.getUserName(),null);
+        if(old != null){
+            return null;
         }
-
-        return pageDataResult;
+        String password = DigestUtil.Md5(user.getUserName(),user.getPassword());
+        user.setPassword(password);
+        user.setCreateTime(DateUtil.getCurrentDate());
+        user.setStatus(1);
+        return super.save(user);
     }
 
 
     @Override
-    public Map<String,Object> addUser(User user) {
-        Map<String,Object> data = new HashMap<String, Object>();
-        try {
-            User old = userDao.getUserByUserName(user.getUserName(),null);
-            if(old != null){
-                data.put("code",0);
-                data.put("msg","用户名已存在！");
-                return data;
-            }
-            String phone = user.getPhone();
-            if(phone.length() != 11){
-                data.put("code",0);
-                data.put("msg","手机号位数不对！");
-                return data;
-            }
-            String username = user.getUserName();
-            if(user.getPassword() == null){
-                String password = DigestUtil.Md5(username,"123456");
-                user.setPassword(password);
-            }else{
-                String password = DigestUtil.Md5(username,user.getPassword());
-                user.setPassword(password);
-            if(user.getRoleId()==1){
-            	user.setRoleName("系统管理员");
-            	}else{
-            		user.setRoleName("普通管理员");
-            	}
-            }
-            
-            user.setCreateTime(DateUtil.getCurrentDate());
-            user.setStatus(1);
-            int result;
-            if( updateByUser(user)!= null){
-            	 result = 1;
-            }else{
-            	result = 0;
-            }
-            if(result == 0){
-                data.put("code",0);
-                data.put("msg","新增失败！");
-                return data;
-            }
-            data.put("code",1);
-            data.put("msg","新增成功！");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return data;
-        }
-        return data;
-    }
-
-
-    @Override
-    public Map <String, Object> updateUser(User user) {
-        Map<String,Object> data = new HashMap<String, Object>();
+    public Map<String,Object> updateUser(User user) {
+    	Map<String,Object> data = new HashMap<String, Object>();
         Integer id = user.getId();
         User old = userDao.getUserByUserName(user.getUserName(),id);
         if(old != null){
-            data.put("code",0);
-            data.put("msg","用户名已存在！");
-            return data;
+        	data.put("code",0);
+        	data.put("msg","用户名已存在！");
+        	return data;
         }
         String username = user.getUserName();
         if(user.getPassword() != null){
             String password = DigestUtil.Md5(username,user.getPassword());
             user.setPassword(password);
         }
-        int result;
-        if( updateByUser(user) != null){
-        	 result = 1;
+        if( super.update(user, user.getId()) != null){
+        	data.put("code",1);
+            data.put("msg","更新成功！");
+            return data;
         }else{
-        	result = 0;
-        }
-        if(result == 0){
-            data.put("code",0);
+        	data.put("code",0);
             data.put("msg","更新失败！");
             return data;
         }
-        data.put("code",1);
-        data.put("msg","更新成功！");
-        return data;
-    }
-
-    @Override
-    public User getUserById(Integer id) {
-        return userDao.getById(id);
     }
 
 

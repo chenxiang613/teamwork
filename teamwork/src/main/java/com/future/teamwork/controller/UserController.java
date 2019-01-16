@@ -1,5 +1,11 @@
 package com.future.teamwork.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -7,21 +13,22 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.future.teamwork.dao.UserDao;
+import com.future.teamwork.domain.ResultInfo;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.service.UserService;
+import com.future.teamwork.utils.CopyUtils;
 import com.future.teamwork.utils.PageDataUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping("user")
@@ -29,6 +36,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private UserDao userDao;
 
     @RequestMapping("login")
     @ResponseBody
@@ -106,49 +116,33 @@ public class UserController {
         return "/user/userManage";
     }
 
-    @RequestMapping(value = "/getUserList", method = RequestMethod.POST)
+    
+    @RequestMapping(value = "/getList", method = RequestMethod.POST)
     @ResponseBody
-    public PageDataUtil getUserList(@RequestParam("pageNum") Integer pageNum,
+    public PageDataUtil getList(@RequestParam("pageNum") Integer pageNum,
                                       @RequestParam("pageSize") Integer pageSize, User user) {
-        PageDataUtil pdr = new PageDataUtil();
-        try {
-            if(null == pageNum) {
-                pageNum = 1;
-            }
-            if(null == pageSize) {
-                pageSize = 10;
-            }
-            pdr = userService.getUserList(user, pageNum ,pageSize);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return pdr;
+    	Example<User> example = Example.of(user);
+    	Pageable pageInfo = PageRequest.of(pageNum-1,pageSize);
+    	Page<User> r = userService.findAll(example,pageInfo);
+    	PageDataUtil result = CopyUtils.coyp(r);
+    	return result;
     }
 
     @RequestMapping(value = "/setUser", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> setUser(User user) {
-        Map<String,Object> data = new HashMap<String, Object>();
+    public ResultInfo setUser(User user) {
         if(user.getId() == null){
-            data = userService.addUser(user);
-        }else{
-            data = userService.updateUser(user);
+            User result = userService.save(user);
         }
-        return data;
+        return new ResultInfo(1,"更新成功");
     }
 
     @RequestMapping(value = "/updateUserStatus", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> updateUserStatus(Integer id,Integer status) {
-        Map<String, Object> data = new HashMap<>();
-        if(status == 0){
-            data = userService.delUser(id,status);
-        }else{
-            data = userService.recoverUser(id,status);
-        }
-        return data;
+    public Map<String, Object> updateUserStatus(User user) {
+        return userService.updateUser(user);
     }
+    
 
 
 }

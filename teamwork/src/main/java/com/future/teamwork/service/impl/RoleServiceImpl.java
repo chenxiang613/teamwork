@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class RoleServiceImpl extends BaseServiceImpl<User, Integer> implements RoleService {
+public class RoleServiceImpl extends BaseServiceImpl<Role, Integer> implements RoleService {
 
     @Autowired
     private RoleDao roleDao;
@@ -73,7 +73,7 @@ public class RoleServiceImpl extends BaseServiceImpl<User, Integer> implements R
             role.setUpdateTime(DateUtil.getCurrentDate());
             role.setStatus(1);
             int result;
-            if( updateByRole(role)!= null){
+            if( super.update(role,role.getId())!= null){
             	 result = 1;
             }else{
             	result = 0;
@@ -101,9 +101,9 @@ public class RoleServiceImpl extends BaseServiceImpl<User, Integer> implements R
     public Map<String,Object> updateRole(Role role) {
         Map<String,Object> data = new HashMap<String, Object>();
         try{
-            role.setUpdateTime(DateUtil.getCurrentDate());
+//            role.setUpdateTime(DateUtil.getCurrentDate());
             int result;
-            if( updateByRole(role)!= null){
+            if( super.update(role,role.getId())!= null){
             	 result = 1;
             }else{
             	result = 0;

@@ -6,7 +6,7 @@ import java.util.Map;
 import com.future.teamwork.domain.Role;
 import com.future.teamwork.utils.PageDataUtil;
 
-public interface RoleService {
+public interface RoleService extends BaseService<Role, Integer> {
 
     PageDataUtil getRoleList(Integer pageNum, Integer pageSize);
 

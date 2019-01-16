@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class PermissionServiceImpl extends BaseServiceImpl<Permission, Integer> implements PermissionService {
+public class PermissionServiceImpl extends BaseServiceImpl<Permission , Integer> implements PermissionService {
 
     @Autowired
     private PermissionDao permissionDao;
@@ -37,7 +37,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Integer> 
             permission.setUpdateTime(DateUtil.getCurrentDate());
             permission.setDelFlag(1);
             int result;
-            if( updateByPermission(permission) != null){
+            if( super.update(permission,permission.getId()) != null){
             	 result = 1;
             }else{
             	result = 0;
@@ -62,7 +62,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Integer> 
         try{
             permission.setUpdateTime(DateUtil.getCurrentDate());
             int result;
-            if( updateByPermission(permission) != null){
+            if( super.update(permission,permission.getId()) != null){
             	 result = 1;
             }else{
             	result = 0;

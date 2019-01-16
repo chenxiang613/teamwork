@@ -27,28 +27,28 @@ public class ShiroConfig {
         bean.setUnauthorizedUrl("/error");
 
         Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/login", "anon");
-        filterMap.put("/logout", "logout");
-        filterMap.put("/user/userList", "user");
-        filterMap.put("/", "user");
-        filterMap.put("/Captcha.jpg", "anon");
-        filterMap.put("/css/*", "anon");
-        filterMap.put("/js/*", "anon");
-        filterMap.put("/js/*/*", "anon");
-        filterMap.put("/js/*/*/*", "anon");
-        filterMap.put("/images/*/**", "anon");
-        filterMap.put("/layui/*", "anon");
-        filterMap.put("/layui/*/**", "anon");
-        filterMap.put("/treegrid/*", "anon");
-        filterMap.put("/treegrid/*/*", "anon");
-        filterMap.put("/fragments/*", "anon");
-        filterMap.put("/layout", "anon");
-        filterMap.put("/home", "anon");
-        filterMap.put("/user/login", "anon");
-
-        filterMap.put("/*/*", "authc");
-        filterMap.put("/*/*/*", "authc");
-        filterMap.put("/*/*/*/**", "authc");
+//        filterMap.put("/login", "anon");
+//        filterMap.put("/logout", "logout");
+//        filterMap.put("/user/userList", "user");
+//        filterMap.put("/", "user");
+//        filterMap.put("/Captcha.jpg", "anon");
+//        filterMap.put("/css/*", "anon");
+//        filterMap.put("/js/*", "anon");
+//        filterMap.put("/js/*/*", "anon");
+//        filterMap.put("/js/*/*/*", "anon");
+//        filterMap.put("/images/*/**", "anon");
+//        filterMap.put("/layui/*", "anon");
+//        filterMap.put("/layui/*/**", "anon");
+//        filterMap.put("/treegrid/*", "anon");
+//        filterMap.put("/treegrid/*/*", "anon");
+//        filterMap.put("/fragments/*", "anon");
+//        filterMap.put("/layout", "anon");
+//        filterMap.put("/home", "anon");
+//        filterMap.put("/user/login", "anon");
+//
+//        filterMap.put("/*/*", "authc");
+//        filterMap.put("/*/*/*", "authc");
+//        filterMap.put("/*/*/*/**", "authc");
 
         bean.setFilterChainDefinitionMap(filterMap);
 
