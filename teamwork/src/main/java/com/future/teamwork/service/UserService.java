@@ -1,7 +1,5 @@
 package com.future.teamwork.service;
 
-import java.util.Map;
-
 import com.future.teamwork.domain.User;
 
 public interface UserService extends BaseService<User, Integer>{

@@ -5,22 +5,16 @@ import java.util.Map;
 
 import com.future.teamwork.domain.Permission;
 import com.future.teamwork.domain.User;
-import com.future.teamwork.utils.PageDataUtil;
 
-public interface PermissionService {
-
-    Map<String,Object> addPermission(Permission permission);
-
-    Map<String,Object> updatePermission(Permission permission);
-
-    PageDataUtil getPermissionList(Integer pageNum, Integer pageSize);
+public interface PermissionService extends BaseService<Permission, Integer>{
 
     List<Permission> parentPermissionList();
 
-    Map<String, Object> del(Integer id);
-
-    Permission getById(Integer id);
-
     Map<String, Object> getUserPerms(User user);
-
+    
+    Permission save(Permission permission);
+    
+    Permission updatePermission(Permission permission);
+    
+    Permission deletePermission(Integer id);
 }

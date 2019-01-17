@@ -32,7 +32,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
 
     @Override
     public User updateUser(User user) {
-        Integer id = user.getId();
         User old = userDao.getByUserName(user.getUserName());
         if(old != null){
         	return null;

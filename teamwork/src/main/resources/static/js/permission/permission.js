@@ -80,13 +80,13 @@ function formSubmit(obj){
         data: $("#permissionForm").serialize(),
         url: "/permission/setPermission",
         success: function (data) {
-            if (data.code == 1) {
-                layer.alert(data.msg,function(){
+            if (data.result == 1) {
+                layer.alert(data.message,function(){
                     layer.closeAll();
                     load(obj);
                 });
             } else {
-                layer.alert(data.msg);
+                layer.alert(data.message);
             }
         },
         error: function () {
@@ -175,13 +175,13 @@ function del(obj,id) {
             btn: ['确认','返回'] //按钮
         }, function(){
             $.post("/permission/del",{"id":id},function(data){
-                if (data.code == 1) {
-                    layer.alert(data.msg,function(){
+                if (data.result == 1) {
+                    layer.alert(data.message,function(){
                         layer.closeAll();
                         load(obj);
                     });
                 } else {
-                    layer.alert(data.msg);
+                    layer.alert(data.message);
                 }
             });
         }, function(){

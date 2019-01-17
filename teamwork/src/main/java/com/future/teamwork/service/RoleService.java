@@ -8,18 +8,10 @@ import com.future.teamwork.utils.PageDataUtil;
 
 public interface RoleService extends BaseService<Role, Integer> {
 
-    PageDataUtil getRoleList(Integer pageNum, Integer pageSize);
-
     List<Role> getRoles();
-
-    Role findRoleById(Integer id);
-
-    Map<String,Object> updateRole(Role role);
-
-    Map<String,Object> delRole(Integer id,Integer status);
-
-    Map<String,Object> recoverRole(Integer id,Integer status);
-
-    Map<String,Object> addRole(Role role);
+    
+    Role save(Role role);
+    
+    Role updateRole(Role role);
 
 }

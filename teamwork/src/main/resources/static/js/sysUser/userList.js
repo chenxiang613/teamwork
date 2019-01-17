@@ -10,7 +10,7 @@ $(function() {
 
         tableIns=table.render({
             elem: '#uesrList',
-            url:'/user/getList',
+            url:'/user/getUserList',
             method: 'post', //默认：get请求
             cellMinWidth: 80,
             page: true,
@@ -103,13 +103,13 @@ function formSubmit(obj){
         data: $("#userForm").serialize(),
         url: "/user/setUser",
         success: function (data) {
-            if (data.code == 1) {
-                layer.alert(data.msg,function(){
+            if (data.result == 1) {
+                layer.alert(data.message,function(){
                     layer.closeAll();
                     load(obj);
                 });
             } else {
-                layer.alert(data.msg);
+                layer.alert(data.message);
             }
         },
         error: function () {
@@ -183,13 +183,13 @@ function delUser(obj,id,name) {
                 btn: ['确认','返回'] //按钮
             }, function(){
                 $.post("/user/updateUserStatus",{"id":id,"status":0},function(data){
-                    if (data.code == 1) {
-                        layer.alert(data.msg,function(){
+                    if (data.result == 1) {
+                        layer.alert(data.message,function(){
                             layer.closeAll();
                             load(obj);
                         });
                     } else {
-                        layer.alert(data.msg);
+                        layer.alert(data.message);
                     }
                 });
             }, function(){
@@ -205,13 +205,13 @@ function recoverUser(obj,id) {
             btn: ['确认','返回'] //按钮
         }, function(){
             $.post("/user/updateUserStatus",{"id":id,"status":1},function(data){
-                if (data.code == 1) {
-                    layer.alert(data.msg,function(){
+                if (data.result == 1) {
+                    layer.alert(data.message,function(){
                         layer.closeAll();
                         load(obj);
                     });
                 } else {
-                    layer.alert(data.msg);
+                    layer.alert(data.message);
                 }
             });
         }, function(){

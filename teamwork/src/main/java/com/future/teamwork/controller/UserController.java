@@ -117,9 +117,9 @@ public class UserController {
     }
 
     
-    @RequestMapping(value = "/getList", method = RequestMethod.POST)
+    @RequestMapping(value = "/getUserList", method = RequestMethod.POST)
     @ResponseBody
-    public PageDataUtil getList(@RequestParam("pageNum") Integer pageNum,
+    public PageDataUtil getUserList(@RequestParam("pageNum") Integer pageNum,
                                       @RequestParam("pageSize") Integer pageSize, User user) {
     	Example<User> example = Example.of(user);
     	Pageable pageInfo = PageRequest.of(pageNum-1,pageSize);
@@ -141,6 +141,9 @@ public class UserController {
         if( result != null){
         	data.setMessage("Success");
     		data.setResult(1);
+        }else{
+        	data.setMessage("Failed");
+        	data.setResult(0);
         }
         return data;
     }
@@ -153,8 +156,11 @@ public class UserController {
     		data.setMessage("Success");
     		data.setResult(1);
     		return data;
+    	}else{
+    		data.setMessage("Failed");
+    		data.setResult(0);
+    		return data;
     	}
-        return null;
     }
     
 

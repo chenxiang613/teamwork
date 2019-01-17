@@ -14,7 +14,7 @@ public class ResultInfo {
 		
 	}
 	
-	public int isResult() {
+	public int getResult() {
 		return result;
 	}
 	public void setResult(int result) {

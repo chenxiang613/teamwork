@@ -83,13 +83,13 @@ function formSubmit(obj){
         data: $("#roleForm").serialize(),
         url: "/role/setRole",
         success: function (data) {
-            if (data.code == 1) {
-                layer.alert(data.msg,function(){
+            if (data.result == 1) {
+                layer.alert(data.message,function(){
                     layer.closeAll();
                     load(obj);
                 });
             } else {
-                layer.alert(data.msg);
+                layer.alert(data.message);
             }
         },
         error: function () {
@@ -173,13 +173,13 @@ function delRole(obj,id) {
             btn: ['确认','返回'] //按钮
         }, function(){
             $.post("/role/updateRoleStatus",{"id":id,"status":0},function(data){
-                if (data.code == 1) {
-                    layer.alert(data.msg,function(){
+                if (data.result == 1) {
+                    layer.alert(data.message,function(){
                         layer.closeAll();
                         load(obj);
                     });
                 } else {
-                    layer.alert(data.msg);
+                    layer.alert(data.message);
                 }
             });
         }, function(){
@@ -195,12 +195,12 @@ function recoverRole(obj,id) {
         }, function(){
             $.post("/role/updateRoleStatus",{"id":id,"status":1},function(data){
                 if (data.code == 1) {
-                    layer.alert(data.msg,function(){
+                    layer.alert(data.message,function(){
                         layer.closeAll();
                         load(obj);
                     });
                 } else {
-                    layer.alert(data.msg);
+                    layer.alert(data.message);
                 }
             });
         }, function(){
