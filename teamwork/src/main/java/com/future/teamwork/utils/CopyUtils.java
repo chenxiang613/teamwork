@@ -43,7 +43,6 @@ public class CopyUtils {
 	}
 	
     public static void main(String[] args) {
-    	int a = 3;
-    	System.out.println(a > 2? true:false);
+    	System.out.println(DigestUtil.Md5("admin","admin"));
     }
 }

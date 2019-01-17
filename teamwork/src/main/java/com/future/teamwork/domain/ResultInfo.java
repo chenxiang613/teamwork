@@ -9,6 +9,11 @@ public class ResultInfo {
 		this.result = result;
 		this.message = message;
 	}
+	
+	public ResultInfo() {
+		
+	}
+	
 	public int isResult() {
 		return result;
 	}

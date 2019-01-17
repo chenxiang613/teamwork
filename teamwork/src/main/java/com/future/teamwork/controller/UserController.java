@@ -131,18 +131,31 @@ public class UserController {
     @RequestMapping(value = "/setUser", method = RequestMethod.POST)
     @ResponseBody
     public ResultInfo setUser(User user) {
+    	ResultInfo data = new ResultInfo();
+    	User result = null;
         if(user.getId() == null){
-            User result = userService.save(user);
+            result = userService.save(user);
+        }else{
+        	result = userService.updateUser(user);
         }
-        return new ResultInfo(1,"更新成功");
+        if( result != null){
+        	data.setMessage("Success");
+    		data.setResult(1);
+        }
+        return data;
     }
 
     @RequestMapping(value = "/updateUserStatus", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> updateUserStatus(User user) {
-        return userService.updateUser(user);
+    public ResultInfo updateUserStatus(User user) {
+    	ResultInfo data = new ResultInfo();
+    	if( userService.updateUser(user) != null ){
+    		data.setMessage("Success");
+    		data.setResult(1);
+    		return data;
+    	}
+        return null;
     }
     
-
 
 }
