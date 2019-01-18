@@ -129,6 +129,7 @@ public class Permission implements Serializable {
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 ", delFlag=" + delFlag +
+                ", childrens=" + childrens +
                 '}';
     }
 }

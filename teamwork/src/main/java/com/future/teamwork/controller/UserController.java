@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.future.teamwork.dao.UserDao;
 import com.future.teamwork.domain.ResultInfo;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.service.UserService;
@@ -36,9 +35,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    
-    @Autowired
-    private UserDao userDao;
 
     @RequestMapping("login")
     @ResponseBody

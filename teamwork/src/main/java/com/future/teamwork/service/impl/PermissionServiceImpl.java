@@ -3,15 +3,10 @@ package com.future.teamwork.service.impl;
 import com.future.teamwork.dao.PermissionDao;
 import com.future.teamwork.dao.RoleDao;
 import com.future.teamwork.domain.Permission;
-import com.future.teamwork.domain.ResultInfo;
 import com.future.teamwork.domain.Role;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.service.PermissionService;
 import com.future.teamwork.utils.DateUtil;
-import com.future.teamwork.utils.PageDataUtil;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,6 +74,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission , Integer>
 
 	@Override
 	public List<Permission> parentPermissionList() {
-		return permissionDao.getPermissionListByPid("0");
+		Permission permission = new Permission();
+		return permissionDao.getPermissionListByPid(permission.getPid());
 	}
 }
