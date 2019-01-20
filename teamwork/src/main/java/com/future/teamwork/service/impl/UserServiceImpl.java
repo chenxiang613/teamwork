@@ -24,7 +24,6 @@ public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements U
         }
         String password = DigestUtil.Md5(user.getUserName(),user.getPassword());
         user.setPassword(password);
-        user.setCreateTime(DateUtil.getCurrentDate());
         user.setStatus(1);
         return super.save(user);
     }

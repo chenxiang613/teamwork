@@ -2,6 +2,7 @@ package com.future.teamwork.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.future.teamwork.domain.ResultInfo;
+import com.future.teamwork.domain.Role;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.service.UserService;
 import com.future.teamwork.utils.CopyUtils;
@@ -157,6 +159,23 @@ public class UserController {
     		data.setResult(0);
     		return data;
     	}
+    }
+    
+    @RequestMapping(value = "/getUserById", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultInfo getUserById(User user) {
+    	ResultInfo data = new ResultInfo();
+    	User result = userService.findByUserName(user.getUserName());
+    	if( result != null ){
+    		result.getUserName();
+    		Set<Role> roleSet = result.getRoleSet();
+    		for (Role role : roleSet) {
+				System.out.println(role.getRoleName());
+			}
+    	}
+    	data.setMessage("Failed");
+		data.setResult(0);
+		return data;
     }
     
 

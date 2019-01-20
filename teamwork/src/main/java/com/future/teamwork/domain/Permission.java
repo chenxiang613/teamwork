@@ -2,22 +2,29 @@ package com.future.teamwork.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name="permission")
+@EntityListeners(AuditingEntityListener.class)
 public class Permission implements Serializable {
-    /**
+    
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7292890264937035695L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,9 +43,11 @@ public class Permission implements Serializable {
     private String url;
 
     @Column(name="create_time")
+    @CreatedDate
     private String createTime;
 
     @Column(name="update_time")
+    @LastModifiedDate
     private String updateTime;
 
     @Column(name="delFlag")

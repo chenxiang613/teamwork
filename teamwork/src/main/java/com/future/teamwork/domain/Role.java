@@ -1,13 +1,15 @@
 package com.future.teamwork.domain;
 
+import java.io.Serializable;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import java.io.Serializable;
 
 @Entity
 @Table(name="role")
@@ -38,6 +40,9 @@ public class Role implements Serializable {
     
     @Column(name="update_time")
     private String updateTime;
+    
+    @ManyToMany(mappedBy = "roleSet")
+    private Set<User> userSet;
 
 	public Integer getId() {
 		return id;
@@ -94,4 +99,14 @@ public class Role implements Serializable {
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
+
+	public Set<User> getUserSet() {
+		return userSet;
+	}
+
+	public void setUserSet(Set<User> userSet) {
+		this.userSet = userSet;
+	}
+	
+	
 }

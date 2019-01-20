@@ -1,17 +1,29 @@
 package com.future.teamwork.domain;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
-
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import java.io.Serializable;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name="user")
+@EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable{
 
     /**
@@ -27,12 +39,6 @@ public class User implements Serializable{
     public User() {
 		super();
 	}
-
-	@Column(name="role_id")
-    private Integer roleId;
-    
-    @Column(name="role_name")
-    private String roleName;
     
     @Column(name="user_name")
     private String userName;
@@ -47,8 +53,20 @@ public class User implements Serializable{
     private Integer status;
     
     @Column(name="create_time")
-    private String createTime;
-
+    @CreatedDate
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date createTime;
+    
+    @Column(name="update_time")
+    @LastModifiedDate
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date updateTime;
+    
+    
+    @ManyToMany
+    @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roleSet;
     
     private String rememberMe;
 
@@ -58,14 +76,6 @@ public class User implements Serializable{
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
 	}
 
 	public String getUserName() {
@@ -100,13 +110,6 @@ public class User implements Serializable{
 		this.status = status;
 	}
 
-	public String getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
 
 	public String getRememberMe() {
 		return rememberMe;
@@ -116,24 +119,41 @@ public class User implements Serializable{
 		this.rememberMe = rememberMe;
 	}
 
-	public String getRoleName() {
-		return roleName;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 	
-	 @Override
-	    public String toString() {
-	        return "User{" +
-	                "id=" + id +
-	                ", userName='" + userName + '\'' +
-	                ", password='" + password + '\'' +
-	                ", roleId=" + roleId +
-	                ", phone='" + phone + '\'' +
-	                ", createTime='" + createTime + '\'' +
-	                ", status=" + status +
-	                '}';
-	    }
+
+	public Set<Role> getRoleSet() {
+		return roleSet;
+	}
+
+	public void setRoleSet(Set<Role> roleSet) {
+		this.roleSet = roleSet;
+	}
+
+	@Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", status=" + status +
+                '}';
+    }
+	
+	
 }

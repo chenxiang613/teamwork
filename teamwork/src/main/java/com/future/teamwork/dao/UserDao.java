@@ -12,7 +12,7 @@ public interface  UserDao  extends JpaRepository<User, Integer> {
 	User getByUserNameAndStatus(String userName,int status);
 	
 	User getByUserName(String userName);
-
+	
     @Query(value="UPDATE user SET password=? WHERE user_name=?",nativeQuery=true)
     int updatePassword(String userName,String password);
     
