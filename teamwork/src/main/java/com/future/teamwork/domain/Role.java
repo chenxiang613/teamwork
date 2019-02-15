@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -41,7 +43,9 @@ public class Role implements Serializable {
     @Column(name="update_time")
     private String updateTime;
     
-    @ManyToMany(mappedBy = "roleSet")
+    //Role
+    
+    @ManyToMany(mappedBy="roleSet")
     private Set<User> userSet;
 
 	public Integer getId() {

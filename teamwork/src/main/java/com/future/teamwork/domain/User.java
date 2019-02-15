@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -62,6 +63,7 @@ public class User implements Serializable{
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
     
+    //User
     
     @ManyToMany
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"),

@@ -1,8 +1,10 @@
 package com.future.teamwork.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,15 +20,23 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.future.teamwork.dao.IdentityCardDao;
+import com.future.teamwork.dao.PersonDao;
+import com.future.teamwork.dao.UserDao;
+import com.future.teamwork.domain.IdentityCard;
+import com.future.teamwork.domain.Order;
+import com.future.teamwork.domain.Person;
 import com.future.teamwork.domain.ResultInfo;
 import com.future.teamwork.domain.Role;
 import com.future.teamwork.domain.User;
+import com.future.teamwork.service.RoleService;
 import com.future.teamwork.service.UserService;
 import com.future.teamwork.utils.CopyUtils;
 import com.future.teamwork.utils.PageDataUtil;
@@ -37,6 +47,18 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private UserDao userDao;
+    
+    @Autowired
+    private RoleService roleService;
+    
+    @Autowired
+    private PersonDao personDao;
+    
+    @Autowired
+    private IdentityCardDao identityCardDao;
 
     @RequestMapping("login")
     @ResponseBody
@@ -120,8 +142,9 @@ public class UserController {
     public PageDataUtil getUserList(@RequestParam("pageNum") Integer pageNum,
                                       @RequestParam("pageSize") Integer pageSize, User user) {
     	Example<User> example = Example.of(user);
-    	Pageable pageInfo = PageRequest.of(pageNum-1,pageSize);
+    	Pageable pageInfo = PageRequest.of(pageNum-1,pageSize,Direction.DESC,"name");
     	Page<User> r = userService.findAll(example,pageInfo);
+    	
     	PageDataUtil result = CopyUtils.coyp(r);
     	return result;
     }
@@ -161,22 +184,51 @@ public class UserController {
     	}
     }
     
-    @RequestMapping(value = "/getUserById", method = RequestMethod.POST)
+    @RequestMapping(value = "/testDeleteUser", method = RequestMethod.POST)
     @ResponseBody
-    public ResultInfo getUserById(User user) {
-    	ResultInfo data = new ResultInfo();
-    	User result = userService.findByUserName(user.getUserName());
-    	if( result != null ){
-    		result.getUserName();
-    		Set<Role> roleSet = result.getRoleSet();
-    		for (Role role : roleSet) {
-				System.out.println(role.getRoleName());
-			}
-    	}
-    	data.setMessage("Failed");
-		data.setResult(0);
-		return data;
+    public boolean testDeleteUser(User user) {
+    	userService.deleteById(user.getId());
+		return true;
     }
     
+    @RequestMapping(value = "/testPerson", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean testPerson(Person p) {
+    	Person person = new Person();
+    	person.setPhone("18818895598");
+    	IdentityCard idCard = new IdentityCard();
+    	idCard.setCardNum("10661464");
+    	personDao.save(person);
+    	return true;
+    }
+    
+    @RequestMapping(value = "/testIdentityCard", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean testIdentityCard(Person person) {
+    	IdentityCard idCard = new IdentityCard();
+    	idCard.setName("test");
+    	idCard.setCardNum("10086");
+    	identityCardDao.save(idCard);
+    	return true;
+    }
+    
+    @RequestMapping(value = "/deleteRole", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean deleteRole(Role role) {
+    	roleService.deleteById(role.getId());
+    	return true;
+    }
+    
+    
+    @RequestMapping(value = "/deletePerson", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean deletePerson(Person person) {
+    	ArrayList<Person> arrayList = new ArrayList<>();
+    	arrayList.add(person);
+    	personDao.deleteInBatch(arrayList);
+    	//personDao.deleteById(person.getId());
+    	return true;
+    }
+
 
 }
