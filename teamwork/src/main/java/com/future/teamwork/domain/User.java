@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,10 +28,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @EntityListeners(AuditingEntityListener.class)
 public class User implements Serializable{
 
-    /**
+
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4436177048767638237L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,8 +66,7 @@ public class User implements Serializable{
     private Date updateTime;
     
     //User
-    
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roleSet;

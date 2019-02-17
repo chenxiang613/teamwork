@@ -142,7 +142,7 @@ public class UserController {
     public PageDataUtil getUserList(@RequestParam("pageNum") Integer pageNum,
                                       @RequestParam("pageSize") Integer pageSize, User user) {
     	Example<User> example = Example.of(user);
-    	Pageable pageInfo = PageRequest.of(pageNum-1,pageSize,Direction.DESC,"name");
+    	Pageable pageInfo = PageRequest.of(pageNum-1,pageSize,Direction.DESC,"userName");
     	Page<User> r = userService.findAll(example,pageInfo);
     	
     	PageDataUtil result = CopyUtils.coyp(r);

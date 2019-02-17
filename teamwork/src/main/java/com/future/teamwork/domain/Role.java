@@ -8,18 +8,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="role")
 public class Role implements Serializable {
-    /**
+
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7812481407548123624L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,9 +45,8 @@ public class Role implements Serializable {
     private String updateTime;
     
     //Role
-    
     @ManyToMany(mappedBy="roleSet")
-    private Set<User> userSet;
+    @JsonIgnore private Set<User> userSet;
 
 	public Integer getId() {
 		return id;

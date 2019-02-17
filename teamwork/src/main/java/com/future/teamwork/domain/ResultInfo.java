@@ -1,6 +1,14 @@
 package com.future.teamwork.domain;
 
-public class ResultInfo {
+import java.io.Serializable;
+
+public class ResultInfo implements Serializable{
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5383974114415324643L;
 	int result;
 	String message;
 	

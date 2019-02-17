@@ -39,7 +39,7 @@ public class SystemLogAspect {
 	private static final Logger logger = LoggerFactory.getLogger(SystemLogAspect.class);
 
 	// Controller层切点
-	@Pointcut("execution (* com.future.teamwork.controller..*.*(..))")
+	@Pointcut("execution (* com.future.teamwork.test..*.*(..))")
 	public void controllerAspect() {
 	}
 
