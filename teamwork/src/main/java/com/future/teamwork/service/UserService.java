@@ -2,7 +2,7 @@ package com.future.teamwork.service;
 
 import com.future.teamwork.domain.User;
 
-public interface UserService extends BaseService<User, Integer>{
+public interface UserService extends BaseService<User, Long>{
 	
     User updateUser(User user);
 

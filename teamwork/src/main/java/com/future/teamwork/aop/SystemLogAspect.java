@@ -39,7 +39,7 @@ public class SystemLogAspect {
 	private static final Logger logger = LoggerFactory.getLogger(SystemLogAspect.class);
 
 	// Controller层切点
-	@Pointcut("execution (* com.future.teamwork.test..*.*(..))")
+	@Pointcut("execution (* com.future.teamwork.controller..*.*(..))")
 	public void controllerAspect() {
 	}
 
@@ -60,7 +60,7 @@ public class SystemLogAspect {
 
 	
 	// 配置controller环绕通知,使用在方法aspect()上注册的切入点
-	@Around("controllerAspect()")
+//	@Around("controllerAspect()")
 	public void around(JoinPoint joinPoint) {
 		System.out.println("==========开始执行controller环绕通知===============");
 		long start = System.currentTimeMillis();
@@ -99,7 +99,6 @@ public class SystemLogAspect {
 		// 请求的IP
 		// String ip = request.getRemoteAddr();
 		User user = new User();
-		user.setId(1);
 		user.setUserName("张三");
 		String ip = "127.0.0.1";
 		try {

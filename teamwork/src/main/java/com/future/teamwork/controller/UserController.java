@@ -1,10 +1,9 @@
 package com.future.teamwork.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,11 +26,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.future.teamwork.dao.IdentityCardDao;
+import com.future.teamwork.annotation.Log;
 import com.future.teamwork.dao.PersonDao;
 import com.future.teamwork.dao.UserDao;
-import com.future.teamwork.domain.IdentityCard;
-import com.future.teamwork.domain.Order;
 import com.future.teamwork.domain.Person;
 import com.future.teamwork.domain.ResultInfo;
 import com.future.teamwork.domain.Role;
@@ -47,21 +44,34 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private PersonDao personDao;
     @Autowired
     private UserDao userDao;
     
-    @Autowired
-    private RoleService roleService;
-    
-    @Autowired
-    private PersonDao personDao;
-    
-    @Autowired
-    private IdentityCardDao identityCardDao;
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @ResponseBody
+    public void test(User user) {
+    	//新增或更新覆盖
+    	userDao.save(user);
+    	//删除
+    	userDao.delete(user);
+    	//根据id删除
+    	userDao.deleteById(user.getId());
+    	//批量删除
+    	List<User> userList = new ArrayList<User>();
+    	userDao.deleteAll(userList);
+    	//返回记录数
+    	long num = userDao.count();
+    	//
+    	boolean exist = userDao.existsById(user.getId());
+    }
 
     @RequestMapping("login")
     @ResponseBody
+    @Log(operationType="operationType",operationName="login")
     public Map<String,Object> login(HttpServletRequest request, User user, HttpSession session,String captcha){
         Map<String,Object> data = new HashMap<String, Object>();
         Subject subject = SecurityUtils.getSubject();
@@ -87,7 +97,7 @@ public class UserController {
 
         try {
             subject.login(token);
-            user = (User) subject.getPrincipal();
+//            user = (User) subject.getPrincipal();
 
             session.setAttribute("user", user.getUserName());
             data.put("code",1);
@@ -191,26 +201,6 @@ public class UserController {
 		return true;
     }
     
-    @RequestMapping(value = "/testPerson", method = RequestMethod.POST)
-    @ResponseBody
-    public boolean testPerson(Person p) {
-    	Person person = new Person();
-    	person.setPhone("18818895598");
-    	IdentityCard idCard = new IdentityCard();
-    	idCard.setCardNum("10661464");
-    	personDao.save(person);
-    	return true;
-    }
-    
-    @RequestMapping(value = "/testIdentityCard", method = RequestMethod.POST)
-    @ResponseBody
-    public boolean testIdentityCard(Person person) {
-    	IdentityCard idCard = new IdentityCard();
-    	idCard.setName("test");
-    	idCard.setCardNum("10086");
-    	identityCardDao.save(idCard);
-    	return true;
-    }
     
     @RequestMapping(value = "/deleteRole", method = RequestMethod.POST)
     @ResponseBody

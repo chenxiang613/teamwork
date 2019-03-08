@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.future.teamwork.domain.Person;
 
 @Repository
-public interface PersonDao extends JpaRepository<Person, Integer> {
+public interface PersonDao extends JpaRepository<Person, Long> {
 	
     
 }

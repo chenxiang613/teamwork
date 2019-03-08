@@ -6,7 +6,7 @@ import java.util.Map;
 import com.future.teamwork.domain.Permission;
 import com.future.teamwork.domain.User;
 
-public interface PermissionService extends BaseService<Permission, Integer>{
+public interface PermissionService extends BaseService<Permission, Long>{
 
     List<Permission> parentPermissionList();
 
@@ -16,5 +16,5 @@ public interface PermissionService extends BaseService<Permission, Integer>{
     
     Permission updatePermission(Permission permission);
     
-    Permission deletePermission(Integer id);
+    Permission deletePermission(Long id);
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.future.teamwork.domain.Permission;
 
 @Repository
-public interface PermissionDao extends JpaRepository<Permission, Integer>{
+public interface PermissionDao extends JpaRepository<Permission, Long>{
 
     Permission getPermissionById(Integer id);
     List<Permission> getPermissionListByPid(String pid);

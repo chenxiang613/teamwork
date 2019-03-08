@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.future.teamwork.domain.SystemLog;
 
 @Repository
-public interface SystemLogDao extends JpaRepository<SystemLog, Integer>{
+public interface SystemLogDao extends JpaRepository<SystemLog, Long>{
 	
 
 }

@@ -3,7 +3,7 @@ package com.future.teamwork.service;
 import java.util.List;
 import com.future.teamwork.domain.Role;
 
-public interface RoleService extends BaseService<Role, Integer> {
+public interface RoleService extends BaseService<Role, Long> {
 
     List<Role> getRoles();
     

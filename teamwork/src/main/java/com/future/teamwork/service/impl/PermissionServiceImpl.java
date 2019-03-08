@@ -19,7 +19,7 @@ import com.future.teamwork.service.PermissionService;
 import com.future.teamwork.utils.DateUtil;
 
 @Service
-public class PermissionServiceImpl extends BaseServiceImpl<Permission , Integer> implements PermissionService {
+public class PermissionServiceImpl extends BaseServiceImpl<Permission , Long> implements PermissionService {
 
     @Autowired
     private PermissionDao permissionDao;
@@ -29,20 +29,17 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission , Integer>
 
     @Override
     public Permission save(Permission permission) {
-        permission.setCreateTime(DateUtil.getCurrentDate());
-        permission.setUpdateTime(DateUtil.getCurrentDate());
         permission.setDelFlag(1);
         return super.save(permission);
     }
 
     @Override
     public Permission updatePermission(Permission permission) {
-        permission.setUpdateTime(DateUtil.getCurrentDate());
         return super.update(permission, permission.getId());
     }
 
     @Override
-    public Permission deletePermission(Integer id) {
+    public Permission deletePermission(Long id) {
     	super.deleteById(id);
     	return null;
     }

@@ -11,50 +11,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name="sys_order")
-public class Order implements Serializable{
+@Data
+public class Order extends BaseEntity implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6191093521595984453L;
-
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     	
     @Column(name="address")
     private String address;
-    
-    
-    //Order
     
     @ManyToOne
     @JoinColumn(name="person_id")
     private Person person;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
 }

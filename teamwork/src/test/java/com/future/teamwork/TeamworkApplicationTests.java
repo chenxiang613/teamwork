@@ -2,14 +2,15 @@ package com.future.teamwork;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.future.teamwork.dao.UserDao;
-import com.future.teamwork.domain.User;
-import com.future.teamwork.utils.CopyUtils;
+import com.future.teamwork.dao.subway.LineDao;
+import com.future.teamwork.dao.subway.StationDao;
+import com.future.teamwork.domain.subway.Line;
+import com.future.teamwork.domain.subway.Station;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,21 +23,35 @@ public class TeamworkApplicationTests {
 	    @Autowired
 	    private UserDao userDao;
 
+	    @Autowired
+		private StationDao stationDao;
+		
+		@Autowired
+		private LineDao lineDao;
+	    
 	    @Test
-	    public void select() {
-	        User test= new User();
-	        test.setId(1);
-	        test.setPhone("12345610086");
-//	        User target = userDao.getOne(1);
-//	        System.out.println(target.toString());
-//	        BeanUtils.copyProperties(target,test);
-//	        userDao.save(target);
+	    public void saveLine() {
+//	        Line line3 = new Line();
+//	        line3.setLineName("line3");
+//	        line3.setComment("line3");
+//	        lineDao.save(line3);
 	        
-	        String[] params = CopyUtils.getNullPropertyNames(test);
-	        for (String string : params) {
-				System.out.println(string);
+	        Line line5 = lineDao.getOne(5);
+	        for (Station station : line5.getStations()) {
+				System.out.println(line5.getLineName() + "  " + station.getStationName());
 			}
 	    }
+	    
+	    
+//	    @Test
+//	    public void saveStation() {
+//	        Station station = new Station();
+//	        station.setStationName("车陂南");
+//	        station.setIsInterchange(1);
+//	        stationDao.save(station);
+//	        
+//	    }
+	    
 //
 //	    @Test
 //	    public void update() {

@@ -1,5 +1,9 @@
 server:
   port: 8081
+logging:
+  file: my.log
+  level:
+    root: warn
 #DB Configuration:
 spring:
   datasource:
@@ -14,7 +18,7 @@ spring:
   jpa:
     database: mysql
     show-sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-      naming_strategy: org.hibernate.cfg.ImprovedNamingStrateg
+#    generate-ddl: true
+#    hibernate:
+#      ddl-auto: update
+#      naming_strategy: org.hibernate.cfg.ImprovedNamingStrateg

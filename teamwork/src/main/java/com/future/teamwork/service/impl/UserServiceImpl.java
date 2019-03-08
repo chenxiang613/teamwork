@@ -6,12 +6,11 @@ import org.springframework.stereotype.Service;
 import com.future.teamwork.dao.UserDao;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.service.UserService;
-import com.future.teamwork.utils.DateUtil;
 import com.future.teamwork.utils.DigestUtil;
 import com.future.teamwork.utils.StaticConstantUtils;
 
 @Service
-public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, Long> implements UserService {
 
     @Autowired
     private UserDao userDao;

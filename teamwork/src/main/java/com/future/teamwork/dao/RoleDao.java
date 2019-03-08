@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.future.teamwork.domain.Role;
 
 @Repository
-public interface RoleDao extends JpaRepository<Role, Integer>{
+public interface RoleDao extends JpaRepository<Role, Long>{
 	
 	@Query(value="SELECT * FROM role",nativeQuery=true)
 	List<Role> getRoleList();

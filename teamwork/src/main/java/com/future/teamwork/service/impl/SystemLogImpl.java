@@ -8,7 +8,7 @@ import com.future.teamwork.domain.SystemLog;
 import com.future.teamwork.service.SystemLogService;
 
 @Service
-public class SystemLogImpl extends BaseServiceImpl<SystemLog, Integer> implements SystemLogService {
+public class SystemLogImpl extends BaseServiceImpl<SystemLog, Long> implements SystemLogService {
 
 	@Autowired
     private SystemLogDao systemLogDao;

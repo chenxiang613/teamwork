@@ -27,7 +27,7 @@ public class HttpRequestUtil {
 //		param.put("storeId", "1068754455468146690");
 //		param.put("limit", "10");
 		param.put("id", "4");
-		System.out.println(post("http://localhost:8081/user/deleteRole", param));
+		System.out.println(post("http://localhost:8081/station/test", param));
 //		System.out.println(AlgoUtil.post("http://192.168.3.176:8080/ssgw/app/selectIndexPageMemberAnalysis", param));
 //		JSONObject jo = JSONObject.parseObject(AlgoUtil.post("http://192.168.2.176:8080/ssgw/sys/selectVIPCount", param));
 //		System.out.println(jo.toString());

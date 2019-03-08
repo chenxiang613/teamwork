@@ -72,7 +72,7 @@ public class PermissionController {
 
     @PostMapping("del")
     @ResponseBody
-    public ResultInfo del(@RequestParam("id") Integer id) {
+    public ResultInfo del(@RequestParam("id") Long id) {
         ResultInfo data = new ResultInfo();
         Permission result =null;
         result = permissionService.deletePermission(id);
