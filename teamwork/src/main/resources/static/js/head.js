@@ -7,10 +7,10 @@ $(function(){
     layui.use('element', function(){
         var element = layui.element;
         // 左侧导航区域（可配合layui已有的垂直导航）
-        $.get("/permission/getUserPerms",function(data){
+        $.get("/permission/getPermissions",function(data){
             if(data!=null){
                 console.log(data.perm)
-                getMenus(data.perm);
+                getMenus(data);
                 element.render('nav');
             }else{
                 layer.alert("权限不足，请联系管理员",function () {

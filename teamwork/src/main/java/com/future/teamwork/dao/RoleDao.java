@@ -14,5 +14,5 @@ public interface RoleDao extends JpaRepository<Role, Long>{
 	@Query(value="SELECT * FROM role",nativeQuery=true)
 	List<Role> getRoleList();
 
-	Role findRoleById(Integer id);
+	Role findRoleById(Long id);
 }

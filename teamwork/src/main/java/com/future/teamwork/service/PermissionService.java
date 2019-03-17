@@ -12,6 +12,8 @@ public interface PermissionService extends BaseService<Permission, Long>{
 
     Map<String, Object> getUserPerms(User user);
     
+    List<Permission> getPermissons(User user);
+    
     Permission save(Permission permission);
     
     Permission updatePermission(Permission permission);

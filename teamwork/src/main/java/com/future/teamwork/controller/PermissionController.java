@@ -16,6 +16,7 @@ import com.future.teamwork.service.PermissionService;
 import com.future.teamwork.utils.CopyUtils;
 import com.future.teamwork.utils.PageDataUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,6 +94,17 @@ public class PermissionController {
         Map<String, Object> data = new HashMap<>();
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         data = permissionService.getUserPerms(user);
+        System.out.println(data.toString());
+        return data;
+    }
+    
+    @GetMapping("getPermissions")
+    @ResponseBody
+    public List<Permission> getPermissions(){
+    	List<Permission> data = new ArrayList<>();
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        data = permissionService.getPermissons(user);
+        System.out.println(data.toString());
         return data;
     }
 

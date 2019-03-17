@@ -50,7 +50,7 @@ public class User extends BaseEntity implements Serializable{
     private Integer status;
     
   
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roleSet;

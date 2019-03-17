@@ -1,8 +1,6 @@
 package com.future.teamwork.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.future.teamwork.annotation.Log;
-import com.future.teamwork.dao.PersonDao;
-import com.future.teamwork.dao.UserDao;
-import com.future.teamwork.domain.Person;
 import com.future.teamwork.domain.ResultInfo;
 import com.future.teamwork.domain.Role;
 import com.future.teamwork.domain.User;
@@ -37,6 +32,9 @@ import com.future.teamwork.service.RoleService;
 import com.future.teamwork.service.UserService;
 import com.future.teamwork.utils.CopyUtils;
 import com.future.teamwork.utils.PageDataUtil;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 @Controller
 @RequestMapping("user")
@@ -47,28 +45,8 @@ public class UserController {
     @Autowired
     private RoleService roleService;
     @Autowired
-    private PersonDao personDao;
-    @Autowired
-    private UserDao userDao;
+    private JedisPool jedisPool;
     
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    @ResponseBody
-    public void test(User user) {
-    	//新增或更新覆盖
-    	userDao.save(user);
-    	//删除
-    	userDao.delete(user);
-    	//根据id删除
-    	userDao.deleteById(user.getId());
-    	//批量删除
-    	List<User> userList = new ArrayList<User>();
-    	userDao.deleteAll(userList);
-    	//返回记录数
-    	long num = userDao.count();
-    	//
-    	boolean exist = userDao.existsById(user.getId());
-    }
-
     @RequestMapping("login")
     @ResponseBody
     @Log(operationType="operationType",operationName="login")
@@ -79,17 +57,16 @@ public class UserController {
         String userName = user.getUserName().trim();
         String password = user.getPassword().trim();
         String rememberMe = user.getRememberMe();
-//        String host = request.getRemoteAddr();
 
         String sessionCaptcha = (String) SecurityUtils.getSubject().getSession().getAttribute(CaptchaController.KEY_CAPTCHA);
         
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
         
-        if (null == captcha || !captcha.equalsIgnoreCase(sessionCaptcha)) {
-        	data.put("code", 0);
-            data.put("message","验证码错误！");
-            return data;
-        }
+//        if (null == captcha || !captcha.equalsIgnoreCase(sessionCaptcha)) {
+//        	data.put("code", 0);
+//            data.put("message","验证码错误！");
+//            return data;
+//        }
 
         if (rememberMe != null && rememberMe.equals("on")) {
             token.setRememberMe(true);
@@ -97,7 +74,7 @@ public class UserController {
 
         try {
             subject.login(token);
-//            user = (User) subject.getPrincipal();
+            user = (User) subject.getPrincipal();
 
             session.setAttribute("user", user.getUserName());
             data.put("code",1);
@@ -194,13 +171,22 @@ public class UserController {
     	}
     }
     
-    @RequestMapping(value = "/testDeleteUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/jedis", method = RequestMethod.POST)
     @ResponseBody
     public boolean testDeleteUser(User user) {
-    	userService.deleteById(user.getId());
+    	
+    	try ( Jedis jedis = jedisPool.getResource() ) {
+    		jedis.set(user.getUserName(), user.getPhone());
+    		System.err.println(jedis.get(user.getUserName()));
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    	System.out.println("NumActive: " + jedisPool.getNumActive());
+    	System.out.println("NumWaiters: " + jedisPool.getNumWaiters());
+    	System.out.println("NumIdle: " + jedisPool.getNumIdle());
+    	
 		return true;
     }
-    
     
     @RequestMapping(value = "/deleteRole", method = RequestMethod.POST)
     @ResponseBody
@@ -209,16 +195,5 @@ public class UserController {
     	return true;
     }
     
-    
-    @RequestMapping(value = "/deletePerson", method = RequestMethod.POST)
-    @ResponseBody
-    public boolean deletePerson(Person person) {
-    	ArrayList<Person> arrayList = new ArrayList<>();
-    	arrayList.add(person);
-    	personDao.deleteInBatch(arrayList);
-    	//personDao.deleteById(person.getId());
-    	return true;
-    }
-
 
 }

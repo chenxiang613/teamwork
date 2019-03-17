@@ -10,7 +10,7 @@ import com.future.teamwork.domain.Permission;
 @Repository
 public interface PermissionDao extends JpaRepository<Permission, Long>{
 
-    Permission getPermissionById(Integer id);
+    Permission getPermissionById(Long id);
     List<Permission> getPermissionListByPid(String pid);
-    Permission deletePermissionById(Integer id);
+    Permission deletePermissionById(Long id);
 }
