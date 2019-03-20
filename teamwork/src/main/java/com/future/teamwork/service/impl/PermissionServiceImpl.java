@@ -71,24 +71,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission , Long> im
     
     @Override
     public List<Permission> getPermissons(User user) {
-        Set<Role> roleId = user.getRoleSet();
-        List<Permission> permissionList = new ArrayList <>();
-        for (Role role : roleId) {
-        	if (null != role ) {
-                String permissions = role.getPermissions();
-                String[] ids = permissions.split(",");
-                for (String id : ids) {
-                    Permission perm = permissionDao.getPermissionById(Long.valueOf(id));
-                    if (null != perm ) {
-                        Permission permission = new Permission();
-                        BeanUtils.copyProperties(perm,permission);
-                        List<Permission> childrens = permissionDao.getPermissionListByPid(perm.getId().toString());
-                        permission.setChildrens(childrens);
-                        permissionList.add(permission);
-                    }
-                }
-            }
-		}
+        List<Permission> permissionList = permissionDao.getPermissionByUserId(1L);
+        System.out.println(permissionList.toString());
         return permissionList;
     }
 

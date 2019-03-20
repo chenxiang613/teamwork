@@ -16,6 +16,9 @@ import com.future.teamwork.service.PermissionService;
 import com.future.teamwork.utils.CopyUtils;
 import com.future.teamwork.utils.PageDataUtil;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +31,8 @@ public class PermissionController {
 
     @Autowired
     private PermissionService permissionService;
+    @Autowired
+    private JedisPool jedisPool;
 
     @RequestMapping("permissionManage")
     public String permissionManage() {
@@ -105,6 +110,19 @@ public class PermissionController {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         data = permissionService.getPermissons(user);
         System.out.println(data.toString());
+        return data;
+    }
+    
+    @PostMapping("getPermissionsTest")
+    @ResponseBody
+    public List<Permission> getPermissionsTest(){
+    	User user = new User();
+    	List<Permission> data = permissionService.getPermissons(user);
+    	try ( Jedis jedis = jedisPool.getResource() ) {
+    		jedis.set("10086", data.toString());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
         return data;
     }
 
