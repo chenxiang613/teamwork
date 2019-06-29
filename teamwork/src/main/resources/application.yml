@@ -1,8 +1,9 @@
 server:
   port: 8081
 logging:
-  file: my.log
+  file: /log/my.log
   level:
+    com.future.teamwork.dao.mapper : debug
     root: warn
 #DB Configuration:
 spring:
@@ -22,7 +23,6 @@ spring:
 #    hibernate:
 #      ddl-auto: update
 #      naming_strategy: org.hibernate.cfg.ImprovedNamingStrateg
-
   redis:
     timeout: 0
   # Redis服务器地址
@@ -39,5 +39,9 @@ spring:
   # 连接池中的最大空闲连接
       max-idle: 8
   # 连接池中的最小空闲连接
-      min-idle: 0
- 
+      min-idle: 0   
+
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.future.teamwork.domain

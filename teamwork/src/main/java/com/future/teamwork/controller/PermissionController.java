@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import com.alibaba.fastjson.JSON;
 import com.future.teamwork.domain.Permission;
 import com.future.teamwork.domain.ResultInfo;
 import com.future.teamwork.domain.User;
@@ -119,7 +120,7 @@ public class PermissionController {
     	User user = new User();
     	List<Permission> data = permissionService.getPermissons(user);
     	try ( Jedis jedis = jedisPool.getResource() ) {
-    		jedis.set("10086", data.toString());
+    		jedis.set("10086", JSON.toJSONString(data));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }

@@ -1,5 +1,7 @@
 package com.future.teamwork.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,4 +55,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
         password = DigestUtil.Md5(userName,password);
         return userDao.updatePassword(userName,password);
     }
+
+
+	@Override
+	public List<User> fillAllUser() {
+		
+		return null;
+	}
 }

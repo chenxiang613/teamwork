@@ -1,9 +1,15 @@
 package com.future.teamwork.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import javax.print.Doc;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
@@ -13,25 +19,21 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.future.teamwork.annotation.Log;
+import com.future.teamwork.dao.mapper.UserMapper;
 import com.future.teamwork.domain.ResultInfo;
-import com.future.teamwork.domain.Role;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.service.RoleService;
 import com.future.teamwork.service.UserService;
-import com.future.teamwork.utils.CopyUtils;
-import com.future.teamwork.utils.PageDataUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -46,11 +48,13 @@ public class UserController {
     private RoleService roleService;
     @Autowired
     private JedisPool jedisPool;
+    @Autowired
+    private UserMapper userMapper;
     
     @RequestMapping("login")
     @ResponseBody
     @Log(operationType="operationType",operationName="login")
-    public Map<String,Object> login(HttpServletRequest request, User user, HttpSession session,String captcha){
+    public Map<String,Object> login(HttpServletRequest request,HttpServletResponse response, User user, HttpSession session,String captcha){
         Map<String,Object> data = new HashMap<String, Object>();
         Subject subject = SecurityUtils.getSubject();
 
@@ -75,8 +79,13 @@ public class UserController {
         try {
             subject.login(token);
             user = (User) subject.getPrincipal();
-
-            session.setAttribute("user", user.getUserName());
+            String session_id = session.getId();
+            session.setAttribute("user_session_id", session_id);
+            Cookie cookie = new Cookie("JSESSIONID", session_id);//session_id默认是存放在一个name为JSESSIOINID里面的
+            cookie.setMaxAge(30 * 60);// 30 分钟
+            response.addCookie(cookie);
+            System.err.println("登陆成功，session id 为：" + session_id);
+            
             data.put("code",1);
             data.put("url","/home");
         } catch (UnknownAccountException e) {
@@ -126,14 +135,18 @@ public class UserController {
     
     @RequestMapping(value = "/getUserList", method = RequestMethod.POST)
     @ResponseBody
-    public PageDataUtil getUserList(@RequestParam("pageNum") Integer pageNum,
+    public PageInfo getUserList(@RequestParam("pageNum") Integer pageNum,
                                       @RequestParam("pageSize") Integer pageSize, User user) {
-    	Example<User> example = Example.of(user);
-    	Pageable pageInfo = PageRequest.of(pageNum-1,pageSize,Direction.DESC,"userName");
-    	Page<User> r = userService.findAll(example,pageInfo);
     	
-    	PageDataUtil result = CopyUtils.coyp(r);
-    	return result;
+    	PageHelper.startPage(pageNum, pageSize);
+        List<User> pageInfo = userService.findAllUser(pageNum, pageSize);
+        return pageInfo;
+//    	Example<User> example = Example.of(user);
+//    	Pageable pageInfo = PageRequest.of(pageNum-1,pageSize,Direction.DESC,"userName");
+//    	Page<User> r = userService.findAll(example,pageInfo);
+//    	
+//    	PageDataUtil result = CopyUtils.coyp(r);
+//    	return result;
     }
 
     @RequestMapping(value = "/setUser", method = RequestMethod.POST)
@@ -176,23 +189,38 @@ public class UserController {
     public boolean testDeleteUser(User user) {
     	
     	try ( Jedis jedis = jedisPool.getResource() ) {
-    		jedis.set(user.getUserName(), user.getPhone());
+    		jedis.set(user.getClass().getName()+ user.getUserName(), user.getPhone());
     		System.err.println(jedis.get(user.getUserName()));
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
-    	System.out.println("NumActive: " + jedisPool.getNumActive());
-    	System.out.println("NumWaiters: " + jedisPool.getNumWaiters());
-    	System.out.println("NumIdle: " + jedisPool.getNumIdle());
-    	
+
 		return true;
     }
     
-    @RequestMapping(value = "/deleteRole", method = RequestMethod.POST)
+    @RequestMapping(value = "/add/user", method = RequestMethod.GET)
     @ResponseBody
-    public boolean deleteRole(Role role) {
-    	roleService.deleteById(role.getId());
-    	return true;
+    public User addUserBy() {
+    	User u1 = new User("chendongfang", "10086", "10086");
+    	User u2 = new User("chendongfang", "1000.", "10000");
+    	List<User> userList = new ArrayList<User>();
+    	userList.add(u1);
+    	userList.add(u2);
+//    	System.err.println(userMapper.insertBatch(userList));
+    	
+    	try ( Jedis jedis = jedisPool.getResource() ) {
+    		for (User u : userList) {
+    			jedis.sadd("User" + u.getUserName(), JSON.toJSONString(u));
+			}
+    		Set<String> setUser = jedis.sdiff("Userchendongfang");
+    		for (String string : setUser) {
+    			User u = (User)JSON.parseObject(string, User.class);
+    			System.out.println(u);
+			}
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    	return u1;
     }
     
 

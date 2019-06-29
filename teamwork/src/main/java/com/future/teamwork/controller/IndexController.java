@@ -24,5 +24,10 @@ public class IndexController {
         subject.logout();
         return "redirect:login";
     }
+    
+    @RequestMapping("testwebsocket")
+    public String socket(){
+        return "testwebsocket";
+    }
 
 }

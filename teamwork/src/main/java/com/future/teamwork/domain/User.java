@@ -66,5 +66,12 @@ public class User extends BaseEntity implements Serializable{
                 ", status=" + status +
                 '}';
     }
+
+	public User(String userName, String password, String phone) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.phone = phone;
+	}
 	
 }
