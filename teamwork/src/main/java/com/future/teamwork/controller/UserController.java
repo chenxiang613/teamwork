@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.future.teamwork.utils.CopyUtils;
+import com.future.teamwork.utils.PageDataUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -19,6 +21,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -135,18 +138,16 @@ public class UserController {
     
     @RequestMapping(value = "/getUserList", method = RequestMethod.POST)
     @ResponseBody
-    public PageInfo getUserList(@RequestParam("pageNum") Integer pageNum,
+    public PageDataUtil getUserList(@RequestParam("pageNum") Integer pageNum,
                                       @RequestParam("pageSize") Integer pageSize, User user) {
     	
     	PageHelper.startPage(pageNum, pageSize);
-        List<User> pageInfo = userService.findAllUser(pageNum, pageSize);
-        return pageInfo;
-//    	Example<User> example = Example.of(user);
-//    	Pageable pageInfo = PageRequest.of(pageNum-1,pageSize,Direction.DESC,"userName");
-//    	Page<User> r = userService.findAll(example,pageInfo);
-//    	
-//    	PageDataUtil result = CopyUtils.coyp(r);
-//    	return result;
+    	Example<User> example = Example.of(user);
+    	Pageable pageInfo = PageRequest.of(pageNum-1,pageSize, Sort.Direction.DESC,"userName");
+    	Page<User> r = userService.findAll(example,pageInfo);
+
+    	PageDataUtil result = CopyUtils.coyp(r);
+    	return result;
     }
 
     @RequestMapping(value = "/setUser", method = RequestMethod.POST)
