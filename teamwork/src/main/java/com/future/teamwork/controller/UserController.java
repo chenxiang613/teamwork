@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.print.Doc;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.future.teamwork.utils.CopyUtils;
 import com.future.teamwork.utils.PageDataUtil;
+import com.future.teamwork.utils.redis.JedisClientSingle;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -23,20 +23,16 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSON;
 import com.future.teamwork.annotation.Log;
-import com.future.teamwork.dao.mapper.UserMapper;
+import com.future.teamwork.dao.system.mapper.UserMapper;
 import com.future.teamwork.domain.ResultInfo;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.service.RoleService;
 import com.future.teamwork.service.UserService;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -53,8 +49,11 @@ public class UserController {
     private JedisPool jedisPool;
     @Autowired
     private UserMapper userMapper;
-    
-    @RequestMapping("login")
+
+    @Autowired
+    private JedisClientSingle jedisClientSingle;
+
+    @PostMapping("/login")
     @ResponseBody
     @Log(operationType="operationType",operationName="login")
     public Map<String,Object> login(HttpServletRequest request,HttpServletResponse response, User user, HttpSession session,String captcha){

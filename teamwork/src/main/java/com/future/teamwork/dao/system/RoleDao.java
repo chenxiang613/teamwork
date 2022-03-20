@@ -1,4 +1,4 @@
-package com.future.teamwork.dao;
+package com.future.teamwork.dao.system;
 
 import java.util.List;
 

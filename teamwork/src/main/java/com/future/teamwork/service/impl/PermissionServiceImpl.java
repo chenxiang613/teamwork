@@ -10,13 +10,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.future.teamwork.dao.PermissionDao;
-import com.future.teamwork.dao.RoleDao;
+import com.future.teamwork.dao.system.PermissionDao;
+import com.future.teamwork.dao.system.RoleDao;
 import com.future.teamwork.domain.Permission;
 import com.future.teamwork.domain.Role;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.service.PermissionService;
-import com.future.teamwork.utils.DateUtil;
 
 @Service
 public class PermissionServiceImpl extends BaseServiceImpl<Permission , Long> implements PermissionService {

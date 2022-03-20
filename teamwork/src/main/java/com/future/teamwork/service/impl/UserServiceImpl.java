@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.future.teamwork.dao.UserDao;
+import com.future.teamwork.dao.system.UserDao;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.service.UserService;
 import com.future.teamwork.utils.DigestUtil;

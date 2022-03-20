@@ -1,5 +1,6 @@
 package com.future.teamwork.controller;
 
+import cn.hutool.http.HttpUtil;
 import com.future.teamwork.domain.User;
 import com.future.teamwork.service.UserService;
 import io.swagger.annotations.Api;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 
 /**
@@ -26,6 +29,8 @@ public class TestController {
     @Autowired
     private UserService userService;
 
+
+
     /**
      * 保存数据
      * @param user
@@ -36,20 +41,24 @@ public class TestController {
     @ApiImplicitParam(name = "user", value = "新增用户数据")
     //说明是什么方法(可以理解为方法注释)
     @ApiOperation(value = "添加用户", notes = "添加用户")
-    public String saveUser(User user){
-        userService.save(user);
+    public String saveUser(String user){
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("city", "北京");
+        String result= HttpUtil.post("https://www.baidu.com", paramMap);
+
+
         return "保存成功";
     }
 
     /**
      * 根据id查询用户
-     * @param id
      * @return
      */
-    @GetMapping(value = "findById")
+    @GetMapping(value = "getUser")
+    @ApiImplicitParam(name = "userName", value = "用户姓名")
     @ApiOperation(value = "根据id获取用户信息", notes = "根据id查询用户信息")
-    public User getUser(Integer id){
-        return userService.findByUserName("test");
+    public User getUser(String userName){
+        return userService.findByUserName(userName);
     }
 
 }
